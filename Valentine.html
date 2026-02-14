@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Memories 💗</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Playfair+Display&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#ffe6f5,#ffd9ec,#ffcce6);
+    text-align:center;
+    color:#5a4a52;
+    overflow-x:hidden;
+}
+
+.container{
+    padding:50px 20px;
+    max-width:750px;
+    margin:auto;
+}
+
+h1{
+    font-family:'Playfair Display',serif;
+    font-size:36px;
+    color:#ff5c8a;
+}
+
+.counter{
+    font-size:18px;
+    margin-bottom:30px;
+    opacity:.9;
+}
+
+.slideshow{
+    position:relative;
+}
+
+.slideshow img{
+    width:100%;
+    border-radius:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    transition:opacity .8s ease-in-out;
+    opacity:1;
+}
+
+.caption{
+    margin-top:15px;
+    font-size:16px;
+    min-height:40px;
+    transition:opacity .6s ease;
+}
+
+.controls{
+    margin-top:15px;
+}
+
+button{
+    padding:8px 22px;
+    border:none;
+    border-radius:25px;
+    background:#ff8fb1;
+    color:white;
+    cursor:pointer;
+    margin:5px;
+    font-size:14px;
+    transition:.3s;
+}
+
+button:hover{
+    background:#ff5c8a;
+    transform:scale(1.05);
+}
+
+.mute-btn{
+    position:fixed;
+    top:15px;
+    right:15px;
+    background:#ff5c8a;
+}
+
+.message{
+    margin-top:35px;
+    font-size:17px;
+    line-height:1.8;
+}
+
+footer{
+    margin-top:50px;
+    font-size:14px;
+    opacity:.7;
+}
+
+.heart{
+    position:fixed;
+    font-size:16px;
+    animation:float 8s linear infinite;
+    opacity:.7;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" autoplay loop>
+    <source src="pram.mp3" type="audio/mp3">
+</audio>
+
+<button class="mute-btn" onclick="toggleMusic()">🔊</button>
+
+<div class="container">
+    <h1>HAPPY VALENTAINE SAYANG</h1>
+    <div class="counter" id="counter"></div>
+
+    <div class="slideshow">
+        <img id="slide" src="">
+        <div class="caption" id="caption"></div>
+    </div>
+
+    <div class="controls">
+        <button onclick="prevPhoto()">Prev</button>
+        <button onclick="nextPhoto()">Next</button>
+    </div>
+
+    <div class="message">
+        Terima kasih sudah mau menemaniku disaat aku sedang down, disaat aku sudah bingung tak memiliki siapa siapa lagi.
+        Terima kasih sudah mau membuat aku merasakan dicintai di sayang , maaf aku belum bisa memberikan sesuai apa yang kamu mau dan maf aku belum bisa membalas semuanya ya sayang.
+        
+        Whatever u say what ever u  do i still love u now n forever. 💗
+    </div>
+
+    <footer>
+        With love, Sayang
+    </footer>
+</div>
+
+<script>
+const START_DATE = new Date("2025-07-14"); // GANTI TANGGAL
+
+const photos = [
+"first date.jpeg",
+"first flower.jpeg",
+"foto pertama kita.jpeg",
+"pulang bayaran.jpeg",
+"foto jatoh.jpeg"
+];
+
+const captions = [
+"Hari dimana first date kita 🌸",
+"Bunga pertama dari aku (maaf belum ngasih lag😓) ✨",
+"Foto pertama kita  😄",
+"Terakhir kita ke kampus 💖",
+"Foto Terakhir pas aku jatuh dari motor😭"
+];
+
+let currentIndex = 0;
+const slide = document.getElementById("slide");
+const caption = document.getElementById("caption");
+
+function updateCounter(){
+    setInterval(()=>{
+        const now = new Date();
+        const diff = now - START_DATE;
+
+        const days = Math.floor(diff/(1000*60*60*24));
+        const hours = Math.floor(diff/(1000*60*60)%24);
+        const mins = Math.floor(diff/(1000*60)%60);
+
+        document.getElementById("counter").innerText =
+        `Sudah bersama ${days} hari ${hours} jam ${mins} menit 💕`;
+    },1000);
+}
+
+function showPhoto(index){
+    slide.style.opacity = 0;
+    caption.style.opacity = 0;
+
+    setTimeout(()=>{
+        slide.src = photos[index];
+        caption.innerText = captions[index];
+        slide.style.opacity = 1;
+        caption.style.opacity = 1;
+    },400);
+}
+
+function nextPhoto(){
+    currentIndex = (currentIndex+1)%photos.length;
+    showPhoto(currentIndex);
+}
+
+function prevPhoto(){
+    currentIndex = (currentIndex-1+photos.length)%photos.length;
+    showPhoto(currentIndex);
+}
+
+setInterval(nextPhoto,5000);
+
+function toggleMusic(){
+    const music=document.getElementById("bgMusic");
+    if(music.paused){
+        music.play();
+    }else{
+        music.pause();
+    }
+}
+
+function floatingHearts(){
+    setInterval(()=>{
+        const heart=document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText="💗";
+        heart.style.left=Math.random()*100+"vw";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),8000);
+    },1500);
+}
+
+showPhoto(currentIndex);
+updateCounter();
+floatingHearts();
+</script>
+
+</body>
+</html>
